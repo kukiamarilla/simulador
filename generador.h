@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include <time.h>
 
-/*piso_origen
-piso_destino
-tiempo: cantidad de segundos, a partir del inicio de la simulación en que el usuario realiza la solicitud de servicio*/
 
 int n,s,c,tu,tp;
-clock_t start;
+//clock_t start;
+time_t start;
+
+void cargaparametros (void);
+void leerparametros (void);
+void generador(void);
+int valido(char x[]);
 
 void cargaparametros(){
 	FILE *ptrcf;
@@ -15,7 +20,7 @@ void cargaparametros(){
 	if((ptrcf=fopen("parametros.dat","w"))!=NULL){
 		printf("%s\n", "Ingrese Cantidad de pisos del edificio" );
 		do{
-			puts("5 - 10")
+			puts("5 - 10");
 			scanf("%s",aux);
 			if (valido(aux)) n=atoi(aux);
 			else printf("\a\nERROR\n");
@@ -68,19 +73,22 @@ void leerparametros(){
 
 void generador(){
 	srand(time(NULL));
-	s=rand()%1001;
+	s=rand()%1000+1;
 	printf("%d\n",(int)start);
 	FILE *ptrcf;
 	int i,pdestino,porigen;
 	if((ptrcf=fopen("solicitudes.dat","w"))!=NULL){
-		if (s==0) fprintf(ptrcf, "%d %d %d\n",0,0,0); //no existe llamado al ascensor en ese momento
 		for (i=0;i<s;i++){
-			clock_t tiempo=clock();
-			porigen=rand()%n+1;
-			do{
-				pdestino=rand()%n+1;
-			}while (pdestino==porigen);
-			fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,(int)(tiempo-start));
+			porigen=rand()%(n+1);
+			printf("porigen %d\n",porigen );
+			if (porigen==0) pdestino=0; //no existen llamados en ese momento
+			else{
+				do{
+					pdestino=rand()%n+1;
+				}while (pdestino==porigen);
+			}
+			time_t tiempo=time(NULL);
+			fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,(int)(difftime(tiempo,start)));
 		}
 	}
 }
