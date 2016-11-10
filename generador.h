@@ -5,20 +5,9 @@
 /*piso_origen
 piso_destino
 tiempo: cantidad de segundos, a partir del inicio de la simulación en que el usuario realiza la solicitud de servicio*/
-void cargaparametros (void);
-void leerparametros (void);
-void generador(void);
 
 int n,s,c,tu,tp;
 clock_t start;
-
-int main(int argc, char const *argv[])
-{
-	clock_t start=clock();
-	//cargaparametros();
-	generador();
-	return 0;
-}
 
 void cargaparametros(){
 	FILE *ptrcf;
@@ -41,6 +30,14 @@ void cargaparametros(){
 	}
 }
 
+void leerparametros(){
+	FILE *ptrcf;
+	if((ptrcf=fopen("parametros.dat","r"))!=NULL){
+		fscanf(ptrcf,"%d %d %d %d",&n,&c,&tu,&tp);
+		fclose(ptrcf);
+	}
+}
+
 void generador(){
 	leerparametros();
 	srand(time(NULL));
@@ -57,13 +54,5 @@ void generador(){
 			}while (pdestino==porigen);
 			fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,(int)(tiempo-start));
 		}
-	}
-}
-
-void leerparametros(){
-	FILE *ptrcf;
-	if((ptrcf=fopen("parametros.dat","r"))!=NULL){
-		fscanf(ptrcf,"%d %d %d %d",&n,&c,&tu,&tp);
-		fclose(ptrcf);
 	}
 }
