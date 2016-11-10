@@ -39,7 +39,6 @@ void leerparametros(){
 }
 
 void generador(){
-	leerparametros();
 	srand(time(NULL));
 	s=rand()%(n*c);
 	printf("%d\n",(int)start);
