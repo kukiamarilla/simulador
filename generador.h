@@ -11,7 +11,8 @@ time_t start;
 
 void cargaparametros (void);
 void leerparametros (void);
-void generador(void);
+void generadorts(int ts);
+void generador(int tiempo);
 int valido(char x[]);
 
 void cargaparametros(){
@@ -71,24 +72,27 @@ void leerparametros(){
 	}
 }
 
-void generador(){
+void generadorts(int ts){
+	int i;
+	for (i=1;i<=ts;i++) generador(i);
+}
+
+void generador(int tiempo){
 	srand(time(NULL));
-	s=rand()%1000+1;
-	printf("%d\n",(int)start);
+	s=rand()%(n*c*10);
 	FILE *ptrcf;
 	int i,pdestino,porigen;
-	if((ptrcf=fopen("solicitudes.dat","w"))!=NULL){
+	if((ptrcf=fopen("solicitudes.dat","a"))!=NULL){
 		for (i=0;i<s;i++){
 			porigen=rand()%(n+1);
-			printf("porigen %d\n",porigen );
 			if (porigen==0) pdestino=0; //no existen llamados en ese momento
 			else{
 				do{
 					pdestino=rand()%n+1;
 				}while (pdestino==porigen);
 			}
-			time_t tiempo=time(NULL);
-			fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,(int)(difftime(tiempo,start)));
+			//time_t tiempo=time(NULL);
+			fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,tiempo);
 		}
 	}
 }
