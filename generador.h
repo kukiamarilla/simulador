@@ -74,7 +74,9 @@ void leerparametros(){
 
 void generadorts(int ts){
 	int i;
-	for (i=1;i<=ts;i++) generador(i);
+	FILE *ptrcf;
+	if((ptrcf=fopen("solicitudes.dat","w"))!=NULL)
+		for (i=1;i<=ts;i++) generador(i);
 }
 
 void generador(int tiempo){
