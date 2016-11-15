@@ -97,4 +97,5 @@ void generador(int tiempo){
 			fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,tiempo);
 		}
 	}
+	fclose(ptrcf);
 }
