@@ -1,10 +1,7 @@
 
-#include "estructurador.h"
-
 struct nodo{
     int piso;						//AL PISO QUE DESEA IR
     int paso;						//CANTIDAD DE PERSONAS QUE QUIEREN IR AL DETERMINADO PISO
-    int tiempo;						//TIEMPO EN EL QUE LLAMARON AL ASCENSOR
     struct nodo *ant;
     struct nodo *sig;				//PARA QUE EL ASCENSOR PUEDA ACCEDER AL ULTIMO O AL PRIMER ELEMENTO DE LA LISTA
 };
@@ -154,14 +151,18 @@ int sumar(struct nodo**lista){						//CALCULA LAS PERSONAS DENTRO DEL ASCENSOR
 			actual=actual->sig;
 
 	}
-	return w;	
+return w;	
 }
-void apilador(struct cola C[], int x){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS FUNCIONES AUXILIARES
+void apilador(struct cola C[][], int x, int direc){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS FUNCIONES AUXILIARES
     int dato;
     int parar;
     do{
         eliminar(&lista, &ultimo, x);
-    	dato=desencolar(&(C[x]));
+    	if(direc){
+        	dato=desencolar(&(C[1][x]));
+		} else{
+			dato=desencolar(&(C[0][x]));
+		}
     	insertar(&lista, &ultimo,dato);
     	parar=sumar(&lista);
 	}while(parar!=0 && dato!=0);

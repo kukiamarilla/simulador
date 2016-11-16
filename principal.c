@@ -1,7 +1,6 @@
 #include "global.h"
 #include "generador.h"
-
-
+#include "estructurador.h"
 
 void generadorts(){
 	int i;
