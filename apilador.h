@@ -5,11 +5,11 @@ struct nodo{
     int piso;						//AL PISO QUE DESEA IR
     int paso;						//CANTIDAD DE PERSONAS QUE QUIEREN IR AL DETERMINADO PISO
     int tiempo;						//TIEMPO EN EL QUE LLAMARON AL ASCENSOR
-    //struct nodo *ant;
+    struct nodo *ant;
     struct nodo *sig;				//PARA QUE EL ASCENSOR PUEDA ACCEDER AL ULTIMO O AL PRIMER ELEMENTO DE LA LISTA
 };
-struct nodo * pila = NULL;
-int n,s,c,tu,tp;
+struct nodo * lista = NULL;
+struct nodo *ultimo = NULL;
 
 int desencolar(struct cola *C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTURADOR.H Y RETORNA UN "TIPO ESTRUCTURA"
 	int ax;
@@ -29,62 +29,10 @@ int desencolar(struct cola *C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTUR
 	return ax;
 
 }
-
-void insertar( struct nodo **lista, int dato ){																//ENLISTA A LAS PERSONAS SEGUN EL PISO QUE DESEA IR 
-	struct nodo *Nuevo; /* apuntador a un nuevo nodo */
-	struct nodo *Anterior; /* apuntador a un nodo previo de la lista */
-	struct nodo *Actual; /* apuntador al nodo actual de la lista */
-	int b=contar(&lista,dato );			/*si es un piso al que ya debe ir el ascensor no agrega*/			//PREGUNTA SI EL PISO AL QUE DESEA IR YA ESTA EN LA LISTA, SI ESTA ES AGREGADA EN DICHO NODO COMO UNA PERSONA MAS QUE DESEA IR		
-	if(b==0){
-		Nuevo = malloc( sizeof( struct nodo ) ); /* crea un nodo */
-		if ( Nuevo != NULL ) {
-			Nuevo->piso = dato;
-			Nuevo->sig = NULL;
-			//Anterior = NULL;
-			Actual = *lista;
-			while ( Actual != NULL && dato > Actual->piso ) {
-				Anterior = Actual;
-				Actual = Actual->sig;
-				
-				
-			}
-	
-			if ( Anterior == NULL ) {
-				Nuevo->sig = *lista;
-				*lista = Nuevo;
-			} else { /* inserta un nuevo nodo entre ptrAnterior y ptrActual */
-				Anterior->sig = Nuevo;
-				Nuevo->sig = Actual;
-			}
-		}
-	}
-}
-void eliminar(struct nodo **pila, int dato){															//ELIMINA LOS NODOS QUE YA LLEGARON A DESTINO LIBERANDO LUGAR EN EL ASCENSOR
-    struct nodo *actual,*anterior;
-	anterior=NULL;
-	actual=*pila;
-	int a=0;
-	while(actual!=NULL && !a){
-        a=(actual->piso==dato);
-        if(!a){
-            anterior=actual;
-            actual=actual->sig;
-        }
-	}
-	if(actual!=NULL){
-        if(actual==*pila) *pila=actual->sig;
-        else{
-            anterior->sig=actual->sig;
-        }
-        free(actual);
-	}
-}
-
-
-int contar(struct nodo **pila,int pis){									//PREGUNTA SI EL PISO AL QUE DESEA IR YA ESTA EN LA LISTA, SI ESTA ES AGREGADA EN DICHO NODO COMO UNA PERSONA MAS QUE DESEA IR
+int contar(struct nodo **lista,int pis){									//PREGUNTA SI EL PISO AL QUE DESEA IR YA ESTA EN LA LISTA, SI ESTA ES AGREGADA EN DICHO NODO COMO UNA PERSONA MAS QUE DESEA IR
 	struct nodo *actual,*anterior;
 	anterior=NULL;
-	actual=*pila;
+	actual=*lista;
 	int a=0; int ha=0; int t;
 	while(actual!=NULL && !a){
         a=(actual->piso==pis);
@@ -100,13 +48,101 @@ int contar(struct nodo **pila,int pis){									//PREGUNTA SI EL PISO AL QUE DES
 	}
 	return ha;
 }
-int sumar(struct nodo**pila){						//CALCULA LAS PERSONAS DENTRO DEL ASCENSOR
-	leerparametros();
+
+void insertar( struct nodo **lista, struct nodo**ultimo,  int dato ){
+	int b;
+	if(*lista==NULL){
+	 	struct nodo *nuevo;
+		nuevo= (struct nodo *)malloc( sizeof( struct nodo ) );
+		nuevo->piso=dato;
+		nuevo->sig=NULL;
+		nuevo->ant=NULL;
+		*lista=nuevo;
+		*ultimo=nuevo;
+		}
+	else {
+		struct nodo *nuevo;
+		struct nodo *actual=*lista;
+		b=contar(&(*lista), dato);
+		if(b==0){
+			nuevo= (struct nodo *)malloc( sizeof( struct nodo ) );
+							if(nuevo!=NULL){
+								nuevo->piso=dato;
+								while(actual!=NULL){
+								            
+								        if(dato<actual->piso){
+								            if(actual==*lista){
+								                *lista=nuevo;
+								            }
+								            nuevo->ant=actual->ant;
+								            nuevo->sig=actual;
+								            if(actual->ant!=NULL){
+								                actual->ant->sig=nuevo;
+								            }
+								            actual->ant=nuevo;
+								            break;
+								        }
+								        else{
+								            if(actual->sig==NULL){
+								                nuevo->ant=actual;
+								                actual->sig=nuevo;
+								                *ultimo=nuevo;
+								                break;
+								            }
+								            actual=actual->sig;
+								        }
+								}
+								
+						}
+		}
+	}
+}
+void imprimir(struct nodo **lista){
+struct nodo *actual;
+    actual=*lista;
+    while(actual!=NULL){
+        printf("%d",actual->piso );
+        actual=actual->sig;
+
+    }
+
+}
+void eliminar(struct nodo **lista,struct nodo **utlimo,  int dato){															//ELIMINA LOS NODOS QUE YA LLEGARON A DESTINO LIBERANDO LUGAR EN EL ASCENSOR
+    struct nodo *actual;
+	actual=*lista;
+	int a=0;
+	while(actual!=NULL && !a){
+        a=(actual->piso==dato);
+        if(!a){
+            actual=actual->sig;
+        }
+	}
+	if(actual!=NULL){
+        if(actual==*lista){
+        	*lista=actual->sig;
+        	if(actual->sig!=NULL){
+        		actual->sig->ant=NULL;
+        	}	
+		} else if(actual->sig!=NULL){
+			actual->ant->sig=actual->sig;
+			actual->sig->ant=actual->ant;
+		}
+        else{
+        	actual->ant->sig=NULL;
+        	*utlimo=actual->ant;
+        }
+        free(actual);
+	}
+}
+
+
+
+int sumar(struct nodo**lista){						//CALCULA LAS PERSONAS DENTRO DEL ASCENSOR
 	int cantidad,can;
 	int w=1;
 	struct nodo *actual,*anterior;
 	anterior=NULL;
-	actual=*pila;
+	actual=*lista;
 	while(actual!=NULL){
 			can=actual->paso; 					//SUMA LA CANTIDAD DE PERSONAS POR PISO DENTRO DEL ASCENSOR
 			cantidad+=can;
@@ -124,10 +160,10 @@ void apilador(struct cola C[], int x){				//FUNCION DENTRO DEL MAIN ENCARGADO DE
     int dato;
     int parar;
     do{
-        eliminar(&pila, x);
+        eliminar(&lista, &ultimo, x);
     	dato=desencolar(&(C[x]));
-    	insertar(&pila, dato);
-    	parar=sumar(&pila);
+    	insertar(&lista, &ultimo,dato);
+    	parar=sumar(&lista);
 	}while(parar!=0 && dato!=0);
 }
 
