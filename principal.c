@@ -2,7 +2,6 @@
 #include "generador.h"
 
 
-
 void generadorts(){
 	int i;
 	FILE *ptrcf;

@@ -4,20 +4,9 @@
 
 FILE *ptrCf;  //ptrCf = apuntador al archivo solicitudes.dat
 
-struct elemento{  //estructura que representa cada uno de los elementos de la cola
-	struct elemento *sig;  //puntero al sgte elemento de la cola
-	int pdestino;  //piso de destino
-	int tiempo;  //tiempo en que llamo
-};
 
-struct cola{
-	struct elemento * primero;
-	struct elemento * ultimo;
-};
 
-void leerarchivo(struct cola C[]);  //funcion que lee el archivo solicitudes.dat
-void encolar(struct cola *C, int pdestino, int tiempo);  //funcion que pasa los datos del archivo solicitudes.dat a una cola
-void imprimecola(struct cola c[]);
+
 int n,s,c,tu,tp;
 
 void encolar(struct cola *C, int pdestino, int tiempo){

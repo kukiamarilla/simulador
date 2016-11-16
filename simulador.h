@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+
 
 /*SIMULADOR:
 			Mueve el ascensor segun logica, tiempos e instrucciones de apilador,
@@ -8,60 +7,28 @@
 
 //_________________________________AUX___________________________________________
 
-typedef struct lista{
-	struct nodo *primero;
-	struct nodo *ultimo;
-}Lista;
 
-typedef struct nodo{
-	int piso;						//AL PISO QUE DESEA IR
-    int paso;						//CANTIDAD DE PERSONAS QUE QUIEREN IR AL DETERMINADO PISO
-    int tiempo;
-	struct nodo *sig;
-	struct nodo *ant;
-}nodolista;
-
-typedef struct pila
-{
-	int dato;
-	struct pila *sig;
-}pila;
 
 //_______________________________________________________________________________
 
-void simulador(int time);
-void cargar(Lista lista, pila **destinos);
-void movimiento(int piso,int tiempo);
-int posicion(void);
-int direccion();
-int verificar();
-void eliminar();
-void tiempoespera(int t);
-void agregar(pila **lista,int x);
-pila *crearNodo(int dat);
-int comparar(int a,int b);
-int *desapilar(pila **cima);
-
-int n,s,c,tu,tp;
-int pisoActual,tiempo;
+int pisoActual=0
+int tiempo=0;
+int standBy=1;
+int direccion=1;
 //_______________________________________________________________________________
 
-int main(){
-	return 0;
-}
 
 void simulador(int time){
 	Lista lista;
 	pila *destinos=NULL;
-	direccion();
 	//leer solicitudes
 	//apilador(); //ver estado apilador
-  	cargar(lista,&destinos);
+  	cargar();
 	movimiento(*desapilar(&destinos),time);
 	eliminar();
 }
 // recibe lista.
-void cargar ( Lista lista, pila **destinos ){
+void cargar (){
 	//solicitudes
 	//pila de ascensor
 	if (direccion()){
@@ -104,12 +71,6 @@ int posicion  ( void ){
 //direccion en el que va el ascensor.
 	// 1(uno) si sube y 0(cero) si baja....	
 	// acdd: acendente decendente.
-int direccion( )
-{
-	puts("direccion");
-	return getchar();
-}
-
 // avisa si ya esta ese piso, si esta 1, si no 0.
 int verificar( ){
 	

@@ -1,15 +1,6 @@
 
 #include "estructurador.h"
 
-struct nodo{
-    int piso;						//AL PISO QUE DESEA IR
-    int paso;						//CANTIDAD DE PERSONAS QUE QUIEREN IR AL DETERMINADO PISO
-    int tiempo;						//TIEMPO EN EL QUE LLAMARON AL ASCENSOR
-    struct nodo *ant;
-    struct nodo *sig;				//PARA QUE EL ASCENSOR PUEDA ACCEDER AL ULTIMO O AL PRIMER ELEMENTO DE LA LISTA
-};
-struct nodo * lista = NULL;
-struct nodo *ultimo = NULL;
 
 int desencolar(struct cola *C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTURADOR.H Y RETORNA UN "TIPO ESTRUCTURA"
 	int ax;
