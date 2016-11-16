@@ -1,13 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 
 FILE *ptrCf;  //ptrCf = apuntador al archivo solicitudes.dat
 
 
 
 
-int n,s,c,tu,tp;
+//funcion que pasa los datos leidos del archivo solicitudes.dat a una cola
 
 void encolar(struct cola *C, int pdestino, int tiempo){
 	struct elemento * nuevo;
@@ -32,33 +29,21 @@ void encolar(struct cola *C, int pdestino, int tiempo){
 	}
 }
 
-void imprimecola(struct cola c[]){
-	int i;
-	for(i=0;i<(n+1);i++){
-		if(c[i].primero==NULL){
-			puts("cola vacia");
-		}else{
-			printf("\nla cola del piso %d es:",i);
-			while(c[i].primero!=NULL){
-				printf(" %d %d -",c[i].primero->pdestino,c[i].primero->tiempo);
-				c[i].primero=c[i].primero->sig;
-			}
-		}
-	}
-}
-
 //funcion que lee el archivo solicitudes.dat y pasa los datos del archivo a una cola
-void leerarchivo(struct cola C[]){  
-	leerparametros();
+void leerarchivo(struct cola C[][2]){  
 	int porigen, pdestino, tiempo;
 	FILE *ptrcf;
 	if((ptrcf=fopen("solicitudes.dat","r"))!=NULL){
 		while (!feof(ptrcf)){
 			fscanf(ptrcf,"%d%d%d\n", &porigen, &pdestino, &tiempo);
 			printf("\n%d %d %d\n",porigen,pdestino,tiempo);
-			encolar(&(C[porigen]), pdestino, tiempo);
+			if(pdestino>porigen){
+				encolar(&(C[porigen][1]), pdestino, tiempo);
+			}else {
+				encolar(&(C[porigen][0]), pdestino, tiempo);
+			}
+			
 		}
 		fclose(ptrcf);
-	}	
-	
+	}		
 }

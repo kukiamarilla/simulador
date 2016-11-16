@@ -1,6 +1,4 @@
 
-#include "estructurador.h"
-
 
 int desencolar(struct cola *C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTURADOR.H Y RETORNA UN "TIPO ESTRUCTURA"
 	int ax;
@@ -145,14 +143,18 @@ int sumar(struct nodo**lista){						//CALCULA LAS PERSONAS DENTRO DEL ASCENSOR
 			actual=actual->sig;
 
 	}
-	return w;	
+return w;	
 }
-void apilador(struct cola C[], int x){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS FUNCIONES AUXILIARES
+void apilador(struct cola C[][], int x, int direc){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS FUNCIONES AUXILIARES
     int dato;
     int parar;
     do{
         eliminar(&lista, &ultimo, x);
-    	dato=desencolar(&(C[x]));
+    	if(direc){
+        	dato=desencolar(&(C[1][x]));
+		} else{
+			dato=desencolar(&(C[0][x]));
+		}
     	insertar(&lista, &ultimo,dato);
     	parar=sumar(&lista);
 	}while(parar!=0 && dato!=0);
