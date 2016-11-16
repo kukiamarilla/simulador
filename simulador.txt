@@ -1,0 +1,13 @@
+simulador(tiempo?)
+  definir direccion del movimiento
+  leer solicitudes
+  ver estado apilador
+  carga de destinos 
+  movimiento desde actual hasta piso donde hace una parada
+  eliminar de destinos el piso por el que ya paso
+
+cargar(pila,solicitudes,destinos)
+  cargar solicitudes en destinos
+  cargar apilador en destinos
+  al cargar debe ordenar asc o des segun direccion
+

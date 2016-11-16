@@ -118,7 +118,7 @@ int sumar(struct nodo**pila){						//CALCULA LAS PERSONAS DENTRO DEL ASCENSOR
 			actual=actual->sig;
 
 	}
-return w;	
+	return w;	
 }
 void apilador(struct cola C[], int x){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS FUNCIONES AUXILIARES
     int dato;
