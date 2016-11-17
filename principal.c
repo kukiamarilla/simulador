@@ -1,6 +1,5 @@
 #include "global.h"
 #include "generador.h"
-#include "estructurador.h"
 
 //ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
 //© Todos los Derechos Reservados ©
@@ -27,34 +26,34 @@ void leerparametros(){
 	}
 	puts("leido");
 	if(n==0){
-		puts("1");
 		n=na;
-		Colas[0]=(struct cola **)malloc((n+1)*sizeof(struct cola *));
-		Colas[1]=(struct cola **)malloc((n+1)*sizeof(struct cola *));
+		Colas[0]=(struct cola **)malloc(n*sizeof(struct cola *));
+		Colas[1]=(struct cola **)malloc(n*sizeof(struct cola *));
 		inicializar();
-		puts("a");
 	}else{
-		puts("2");
 		if (na!=n){
-			puts("redimensionar");
 			if (na<n){
 				n=na;
 				decapitar();
 			}
 			n=na;
-			Colas[0]=(struct cola **)realloc(Colas[0],(n+1)*sizeof(struct cola *));
-			Colas[1]=(struct cola **)realloc(Colas[0],(n+1)*sizeof(struct cola *));
+			Colas[0]=(struct cola **)realloc(Colas[0],n * sizeof(struct cola *));
+			Colas[1]=(struct cola **)realloc(Colas[1],n * sizeof(struct cola *));	
+			inicializar();
 		}
 	}
 }
 
 void inicializar(){
-	int i;
-	for (i=1;i<=n;i++){
-		Colas[0][i]->primero=NULL;
-		Colas[0][i]->ultimo=NULL;
-		Colas[1][i]->primero=NULL;
-		Colas[1][i]->ultimo=NULL;
+	int i, j;
+	for (i=0;i<2;i++){
+		for (j = 0; j < n; ++j)
+		{
+			/* code */
+			Colas[i][j]=(struct cola *)malloc(sizeof(struct cola));
+			Colas[i][j]->primero=NULL;
+			Colas[i][j]->ultimo=NULL;
+		}
 	}
 }
 
@@ -150,16 +149,7 @@ int main(int argc, char const *argv[])
 {
 	//cargaparametros();
 	scanf("%d", &ts);
-	printf("%s %d\n","ts: ",ts );
-	printf("%d\n",n );
 	leerparametros();
-	generadorts();
-	leerarchivo();
-	printf("%d\n", n);
-	sleep(15);
-	leerparametros();
-	printf("%d\n", n);
-	generadorts();
 
 	return 0;
 }

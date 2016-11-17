@@ -112,7 +112,7 @@ int haySolicitudes(int piso)
 	actual=lista;
 	while(actual != NULL){
 		if(actual->pdestino == piso){
-			b=1
+			b=1;
 		}
 		actual=actual->sig;
 	}
@@ -121,14 +121,14 @@ int haySolicitudes(int piso)
 
 int seDebeEsperar(int piso){
 	int b=0;
-
+	struct elemento * actual;
 	if(Colas[direccion][i]->primero != NULL && Colas[direccion][i]->primero->tiempo <=tiempo){
 		b=1;
 	}
 	actual=lista;
 	while(actual != NULL){
 		if(actual->pdestino == piso){
-			b=1
+			b=1;
 		}
 		actual=actual->sig;
 	}
