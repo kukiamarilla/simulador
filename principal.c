@@ -1,7 +1,12 @@
 #include "global.h"
 #include "generador.h"
+#include "estructurador.h"
 
+//ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
+//© Todos los Derechos Reservados ©
 
+void  decapitar(int na);
+void eliminar(struct cola **cola,struct elemento *aux);
 void generadorts(){
 	int i;
 	FILE *ptrcf;
@@ -10,13 +15,62 @@ void generadorts(){
 }
 
 void leerparametros(){
+	int na;
 	FILE *ptrcf;
+	puts("leerparametros");
 	if((ptrcf=fopen("parametros.dat","r"))!=NULL){
-		fscanf(ptrcf,"%d %d %d %d",&n,&c,&tu,&tp);
+		fscanf(ptrcf,"%d %d %d %d",&na,&c,&tu,&tp);
 		fclose(ptrcf);
+	}
+	
+	if (na!=n && n){
+		puts("redimensionar");
+		*Colas=realloc(*Colas,na * sizeof(struct cola));
+		if (na<n){
+			n=na;
+			decapitar();
+		}
+	}
+	n=na;
+}
+
+void decapitar(){
+	puts("DECAPITANDO EDIFICIO: HABRA PERSONAS MUERTAS AL FINALIZAR PROCESO");
+	if ((*Colas[1])->primero!=NULL){
+		struct elemento *aux=(*Colas[1])->primero;
+		eliminar(Colas[1]);
 	}
 }
 
+void eliminar(struct cola **cola){
+	puts("ELIMINANDO NODO");
+    struct elemento *actual;
+	int i;
+	for (i=1;i<=n;i++){
+		actual=(*cola)->primero;
+		while (actual!=NULL){
+			if (actual->pdestino>n){
+				if(actual!=NULL){
+			        if(actual==((*cola)->primero)){
+			        	(*cola)->primero=actual->sig;
+			        	if(actual->sig!=NULL){
+			        		actual->sig->ant=NULL;
+			        	}	
+					} else if(actual->sig!=NULL){
+						actual->ant->sig=actual->sig;
+						actual->sig->ant=actual->ant;
+					}
+			        else{
+			        	actual->ant->sig=NULL;
+			        	(*cola)->ultimo=actual->ant;
+			        }
+			        free(actual);
+				}
+			}
+		}
+	}
+	puts("ELIMINADO");
+}
 
 int valido(char x[]){
 	int i;
@@ -71,9 +125,15 @@ void cargaparametros(){
 
 int main(int argc, char const *argv[])
 {
-	cargaparametros();
+	//cargaparametros();
 	scanf("%d", &ts);
 	leerparametros();
+	generadorts();
+	leerarchivo(**Colas);
+	printf("%d\n", n);
+	sleep(10);
+	leerparametros();
+	printf("%d\n", n);
 	generadorts();
 
 	return 0;
