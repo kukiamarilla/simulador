@@ -43,9 +43,9 @@ void leerarchivo(){
 			// if (tempo==tiempo){
 				if(pdestino>porigen){
 					
-					encolar((Colas[1][porigen]), pdestino, tempo);
+					encolar((Colas[1][porigen-1]), pdestino-1, tempo);
 				}else {
-					encolar((Colas[0][porigen]), pdestino, tempo);
+					encolar((Colas[0][porigen-1]), pdestino-1, tempo);
 				}
 			// }
 		}
