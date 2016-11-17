@@ -10,8 +10,7 @@ int desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTU
         temporal=C->primero;
         C->primero=C->primero->sig;
         aux=*temporal;
-        free(temporal);
-	    
+        free(temporal);   
     }else{
     	return NULL;
     }
@@ -40,32 +39,30 @@ void insertar( struct nodo **lista, struct nodo**ultimo,  int dato ){
 			nuevo= (struct nodo *)malloc( sizeof( struct nodo ) );
 			if(nuevo!=NULL){
 				nuevo->piso=dato;
-				while(actual!=NULL){
-				            
-				        if(dato<actual->piso){
-				            if(actual==*lista){
-				                *lista=nuevo;
-				            }
-				            nuevo->ant=actual->ant;
-				            nuevo->sig=actual;
-				            if(actual->ant!=NULL){
-				                actual->ant->sig=nuevo;
-				            }
-				            actual->ant=nuevo;
-				            break;
-				        }
-				        else{
-				            if(actual->sig==NULL){
-				                nuevo->ant=actual;
-				                actual->sig=nuevo;
-				                *ultimo=nuevo;
-				                break;
-				            }
-				            actual=actual->sig;
-				        }
+				while(actual!=NULL){ 
+			        if(dato<actual->piso){
+			            if(actual==*lista){
+			                *lista=nuevo;
+			            }
+			            nuevo->ant=actual->ant;
+			            nuevo->sig=actual;
+			            if(actual->ant!=NULL){
+			                actual->ant->sig=nuevo;
+			            }
+			            actual->ant=nuevo;
+			            break;
+			        }
+			        else{
+			            if(actual->sig==NULL){
+			                nuevo->ant=actual;
+			                actual->sig=nuevo;
+			                *ultimo=nuevo;
+			                break;
+			            }
+			            actual=actual->sig;
+			        }
 				}
-				
-		}
+			}
 		}
 	}
 }
@@ -125,4 +122,3 @@ void apilador( int piso, int direc){				//FUNCION DENTRO DEL MAIN ENCARGADO DE L
     	}
     }
 }
-

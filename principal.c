@@ -5,8 +5,12 @@
 //ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
 //© Todos los Derechos Reservados ©
 
-void  decapitar(int na);
-void eliminar(struct cola **cola,struct elemento *aux);
+void  decapitar(void);
+void eliminar(struct cola *cola);
+void dimensionar();
+void redimensionar(int na);
+
+
 void generadorts(){
 	int i;
 	FILE *ptrcf;
@@ -22,50 +26,63 @@ void leerparametros(){
 		fscanf(ptrcf,"%d %d %d %d",&na,&c,&tu,&tp);
 		fclose(ptrcf);
 	}
-	
 	if (na!=n && n){
 		puts("redimensionar");
-		*Colas=realloc(*Colas,na * sizeof(struct cola));
-		if (na<n){
-			n=na;
-			decapitar();
-		}
+		redimensionar(na);
 	}
 	n=na;
+	if (!n) dimensionar();
+}
+void dimensionar(){
+	puts("dimensionar");
+	int i;
+	Colas=(struct cola **)malloc((n+1)*sizeof(struct cola));
+	for (i=0;i<=n+1;i++) Colas[i]=(struct cola *)malloc(2*sizeof(struct cola));
+}
+
+void redimensionar(int na){
+	int i;
+	Colas=(struct cola **)realloc(Colas,n*sizeof(struct cola*));
+	if (na>n){
+		for (i=n;i<=na;i++) Colas[i]=(struct cola *)malloc(2*sizeof(struct cola));
+	}else{
+		n=na;
+		decapitar();
+	}
 }
 
 void decapitar(){
 	puts("DECAPITANDO EDIFICIO: HABRA PERSONAS MUERTAS AL FINALIZAR PROCESO");
-	if ((*Colas[1])->primero!=NULL){
-		struct elemento *aux=(*Colas[1])->primero;
-		eliminar(Colas[1]);
+	int i;
+	for (i=1;i<=n;i++){
+		if ((Colas[i][1]).primero!=NULL){
+			eliminar(&Colas[i][1]);
+		}
 	}
 }
 
-void eliminar(struct cola **cola){
+void eliminar(struct cola *cola){
 	puts("ELIMINANDO NODO");
     struct elemento *actual;
-	int i;
-	for (i=1;i<=n;i++){
-		actual=(*cola)->primero;
-		while (actual!=NULL){
-			if (actual->pdestino>n){
-				if(actual!=NULL){
-			        if(actual==((*cola)->primero)){
-			        	(*cola)->primero=actual->sig;
-			        	if(actual->sig!=NULL){
-			        		actual->sig->ant=NULL;
-			        	}	
-					} else if(actual->sig!=NULL){
-						actual->ant->sig=actual->sig;
-						actual->sig->ant=actual->ant;
-					}
-			        else{
-			        	actual->ant->sig=NULL;
-			        	(*cola)->ultimo=actual->ant;
-			        }
-			        free(actual);
+	
+	actual=cola->primero;
+	while (actual!=NULL){
+		if ((actual->pdestino)>n){
+			if(actual!=NULL){
+		        if(actual==(cola->primero)){
+		        	cola->primero=actual->sig;
+		        	if(actual->sig!=NULL){
+		        		actual->sig->ant=NULL;
+		        	}	
+				} else if(actual->sig!=NULL){
+					actual->ant->sig=actual->sig;
+					actual->sig->ant=actual->ant;
 				}
+		        else{
+		        	actual->ant->sig=NULL;
+		        	cola->ultimo=actual->ant;
+		        }
+		        free(actual);
 			}
 		}
 	}
@@ -127,9 +144,11 @@ int main(int argc, char const *argv[])
 {
 	//cargaparametros();
 	scanf("%d", &ts);
+	printf("%s %d\n","ts: ",ts );
+	printf("%d\n",n );
 	leerparametros();
 	generadorts();
-	leerarchivo(**Colas);
+	leerarchivo();
 	printf("%d\n", n);
 	sleep(10);
 	leerparametros();
