@@ -1,13 +1,13 @@
 
 
-void generador(int tiempo){
+void generador(){
 	int s;
-	srand(time(NULL));
+	srand(rand()%time(NULL));
 	FILE *ptrcf;
 	int i,pdestino,porigen;
 	if((ptrcf=fopen("solicitudes.dat","a"))!=NULL){
 		for (i=1;i<=n;i++){
-			s=rand()%10;
+			s=rand()%5;
 			if (s==1){
 				porigen=i;
 				do{

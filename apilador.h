@@ -2,7 +2,7 @@
 int subir=0;
 
 
-int desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTURADOR.H Y RETORNA UN "TIPO ESTRUCTURA"
+struct elemento * desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTURADOR.H Y RETORNA UN "TIPO ESTRUCTURA"
 	
 	struct elemento *temporal;
 	struct elemento aux;
@@ -20,7 +20,7 @@ int desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTU
 
 
 
-void insertar( struct nodo * persona){
+void insertar( struct elemento * persona){
 	if(lista != NULL){
 		lista->ant=persona;
 		persona->sig=lista;
@@ -31,7 +31,7 @@ void insertar( struct nodo * persona){
 	}
 }
 
-void eliminar(int piso){													//ELIMINA LOS NODOS QUE YA LLEGARON A DESTINO LIBERANDO LUGAR EN EL ASCENSOR
+int eliminarNodo(int piso){													//ELIMINA LOS NODOS QUE YA LLEGARON A DESTINO LIBERANDO LUGAR EN EL ASCENSOR
 	struct elemento * actual = lista;
 	if(lista != NULL){
 		while(actual->pdestino != piso && actual != NULL){
@@ -56,7 +56,7 @@ void apilador( int piso){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS
     int dato;
     int time;
     int eliminado=1;
-    struct nodo persona;
+    struct elemento * persona;
     if(piso != -1){
     	if(lista!= NULL){
     		if(subir==0){
@@ -64,7 +64,7 @@ void apilador( int piso){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS
     		}
     		subir=1;
     		if(subir==1 && tiempo-time >= tu){
-	    		eliminado=eliminar(piso);
+	    		eliminado=eliminarNodo(piso);
 	    		if(eliminado==1){
 	    			time=tiempo;
 	    		}
@@ -73,7 +73,7 @@ void apilador( int piso){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS
     		eliminado=0;
     	}
     	if(eliminado==0){
-	    	if(personas < c &&Colas[direccion][piso]->primero != NULL && Colas[direccion][piso]->primero->tiempo <= tiempo){
+	    	if(personas < c && Colas[direccion][piso]->primero != NULL && Colas[direccion][piso]->primero->tiempo <= tiempo){
 	    		if(subir==0){
 	    			time=tiempo;
 	    		}

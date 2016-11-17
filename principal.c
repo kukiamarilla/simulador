@@ -1,22 +1,15 @@
 #include "global.h"
 #include "generador.h"
-#include "estructurador.h"
-
+#include "simulador.h"
+#include "apilador.h"
 //ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
 //© Todos los Derechos Reservados ©
 
 void  decapitar(void);
-void eliminar(struct cola *cola);
-void dimensionar();
-void redimensionar(int na);
+void eliminar(void);
+void inicializar(void);
 
 
-void generadorts(){
-	int i;
-	FILE *ptrcf;
-	if((ptrcf=fopen("solicitudes.dat","w"))!=NULL)
-		for (i=1;i<=ts;i++) generador(i);
-}
 
 void leerparametros(){
 	int na;
@@ -26,21 +19,35 @@ void leerparametros(){
 		fscanf(ptrcf,"%d %d %d %d",&na,&c,&tu,&tp);
 		fclose(ptrcf);
 	}
-
-	if(n==NULL){
+	puts("leido");
+	if(n==0){
 		n=na;
 		Colas[0]=(struct cola **)malloc(n*sizeof(struct cola *));
 		Colas[1]=(struct cola **)malloc(n*sizeof(struct cola *));
+		inicializar();
 	}else{
 		if (na!=n){
-			puts("redimensionar");
 			if (na<n){
-				n=na
+				n=na;
 				decapitar();
 			}
 			n=na;
-			Colas[0]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
-			Colas[1]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
+			Colas[0]=(struct cola **)realloc(Colas[0],n * sizeof(struct cola *));
+			Colas[1]=(struct cola **)realloc(Colas[1],n * sizeof(struct cola *));	
+			inicializar();
+		}
+	}
+}
+
+void inicializar(){
+	int i, j;
+	for (i=0;i<2;i++){
+		for (j = 0; j < n; ++j)
+		{
+			/* code */
+			Colas[i][j]=(struct cola *)malloc(sizeof(struct cola));
+			Colas[i][j]->primero=NULL;
+			Colas[i][j]->ultimo=NULL;
 		}
 	}
 }
@@ -53,12 +60,13 @@ void decapitar(){
 void eliminar(){
 	puts("ELIMINANDO NODO");
     struct elemento *actual;
+    struct elemento *temporal;
 	int i;
 	for (i=0;i<n;i++){
 		actual=Colas[1][i]->primero;
 		while (actual!=NULL){
-			if (actual->pdestino>na){
-		        if(actual==Colas[1][i]->primero)){
+			if (actual->pdestino>n){
+		        if(actual==Colas[1][i]->primero){
 		        	Colas[1][i]->primero=actual->sig;
 		        	actual->sig->ant=NULL;
 				}else{
@@ -69,7 +77,7 @@ void eliminar(){
 						Colas[1][i]->ultimo=actual->ant;
 					}
 				}
-				temporal=actual
+				temporal=actual;
 				actual=actual->sig;
 		        free(temporal);
 				
@@ -79,7 +87,6 @@ void eliminar(){
 			}
 		}
 	}
-	puts("ELIMINADO");
 }
 
 int valido(char x[]){
@@ -137,16 +144,7 @@ int main(int argc, char const *argv[])
 {
 	//cargaparametros();
 	scanf("%d", &ts);
-	printf("%s %d\n","ts: ",ts );
-	printf("%d\n",n );
 	leerparametros();
-	generadorts();
-	leerarchivo();
-	printf("%d\n", n);
-	sleep(10);
-	leerparametros();
-	printf("%d\n", n);
-	generadorts();
 
 	return 0;
 }
