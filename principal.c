@@ -35,6 +35,7 @@ void leerparametros(){
 		if (na!=n){
 			puts("redimensionar");
 			if (na<n){
+				n=na
 				decapitar();
 			}
 			n=na;
@@ -53,7 +54,7 @@ void eliminar(){
 	puts("ELIMINANDO NODO");
     struct elemento *actual;
 	int i;
-	for (i=0;i<na;i++){
+	for (i=0;i<n;i++){
 		actual=Colas[1][i]->primero;
 		while (actual!=NULL){
 			if (actual->pdestino>na){
