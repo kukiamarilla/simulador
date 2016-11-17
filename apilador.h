@@ -2,7 +2,7 @@
 int subir=0;
 
 
-int desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTURADOR.H Y RETORNA UN "TIPO ESTRUCTURA"
+struct elemento * desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTURADOR.H Y RETORNA UN "TIPO ESTRUCTURA"
 	
 	struct elemento *temporal;
 	struct elemento aux;
@@ -20,7 +20,7 @@ int desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTU
 
 
 
-void insertar( struct nodo * persona){
+void insertar( struct elemento * persona){
 	if(lista != NULL){
 		lista->ant=persona;
 		persona->sig=lista;
@@ -31,7 +31,7 @@ void insertar( struct nodo * persona){
 	}
 }
 
-void eliminar(int piso){													//ELIMINA LOS NODOS QUE YA LLEGARON A DESTINO LIBERANDO LUGAR EN EL ASCENSOR
+int eliminar(int piso){													//ELIMINA LOS NODOS QUE YA LLEGARON A DESTINO LIBERANDO LUGAR EN EL ASCENSOR
 	struct elemento * actual = lista;
 	if(lista != NULL){
 		while(actual->pdestino != piso && actual != NULL){

@@ -1,6 +1,6 @@
 #include "global.h"
 #include "generador.h"
-
+#include "apilador.h"
 //ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
 //© Todos los Derechos Reservados ©
 
@@ -8,13 +8,7 @@ void  decapitar(void);
 void eliminar(void);
 void inicializar(void);
 
-void generadorts(){
-	int i;
-	FILE *ptrcf;
 
-	if((ptrcf=fopen("solicitudes.dat","w"))!=NULL)
-		for (i=1;i<=ts;i++) generador(i);
-}
 
 void leerparametros(){
 	int na;
