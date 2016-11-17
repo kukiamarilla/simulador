@@ -5,8 +5,12 @@
 //ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
 //© Todos los Derechos Reservados ©
 
-void  decapitar(int na);
-void eliminar(struct cola **cola,struct elemento *aux);
+void  decapitar(void);
+void eliminar(struct cola *cola);
+void dimensionar();
+void redimensionar(int na);
+
+
 void generadorts(){
 	int i;
 	FILE *ptrcf;
@@ -22,6 +26,7 @@ void leerparametros(){
 		fscanf(ptrcf,"%d %d %d %d",&na,&c,&tu,&tp);
 		fclose(ptrcf);
 	}
+
 	if(n==NULL){
 		n=na;
 		Colas[0]=(struct cola **)malloc(n*sizeof(struct cola *));
@@ -33,8 +38,8 @@ void leerparametros(){
 				decapitar();
 			}
 			n=na;
-			Colas[0]=(struct cola **)malloc(Colas[0],n*sizeof(struct cola *));
-			Colas[1]=(struct cola **)malloc(Colas[0],n*sizeof(struct cola *));
+			Colas[0]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
+			Colas[1]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
 		}
 	}
 }
@@ -59,6 +64,8 @@ void eliminar(){
 					actual->ant->sig=actual->sig;
 					if(actual->sig != NULL){
 						actual->sig->ant=actual->ant;
+					}else{
+						Colas[i]->ultimo=actual->ant;
 					}
 				}
 				temporal=actual
@@ -67,6 +74,7 @@ void eliminar(){
 				
 			}else{
 				actual=actual->sig;
+
 			}
 		}
 	}
@@ -128,9 +136,11 @@ int main(int argc, char const *argv[])
 {
 	//cargaparametros();
 	scanf("%d", &ts);
+	printf("%s %d\n","ts: ",ts );
+	printf("%d\n",n );
 	leerparametros();
 	generadorts();
-	leerarchivo(**Colas);
+	leerarchivo();
 	printf("%d\n", n);
 	sleep(10);
 	leerparametros();
