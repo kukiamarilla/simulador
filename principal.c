@@ -22,50 +22,51 @@ void leerparametros(){
 		fscanf(ptrcf,"%d %d %d %d",&na,&c,&tu,&tp);
 		fclose(ptrcf);
 	}
-	
-	if (na!=n && n){
-		puts("redimensionar");
-		*Colas=realloc(*Colas,na * sizeof(struct cola));
-		if (na<n){
+	if(n==NULL){
+		n=na;
+		Colas[0]=(struct cola **)malloc(n*sizeof(struct cola *));
+		Colas[1]=(struct cola **)malloc(n*sizeof(struct cola *));
+	}else{
+		if (na!=n){
+			puts("redimensionar");
+			if (na<n){
+				decapitar();
+			}
 			n=na;
-			decapitar();
+			Colas[0]=(struct cola **)malloc(Colas[0],n*sizeof(struct cola *));
+			Colas[1]=(struct cola **)malloc(Colas[0],n*sizeof(struct cola *));
 		}
 	}
-	n=na;
 }
 
 void decapitar(){
 	puts("DECAPITANDO EDIFICIO: HABRA PERSONAS MUERTAS AL FINALIZAR PROCESO");
-	if ((*Colas[1])->primero!=NULL){
-		struct elemento *aux=(*Colas[1])->primero;
-		eliminar(Colas[1]);
-	}
+	eliminar();
 }
 
-void eliminar(struct cola **cola){
+void eliminar(){
 	puts("ELIMINANDO NODO");
     struct elemento *actual;
 	int i;
 	for (i=1;i<=n;i++){
-		actual=(*cola)->primero;
+		actual=Colas[i]->primero;
 		while (actual!=NULL){
-			if (actual->pdestino>n){
-				if(actual!=NULL){
-			        if(actual==((*cola)->primero)){
-			        	(*cola)->primero=actual->sig;
-			        	if(actual->sig!=NULL){
-			        		actual->sig->ant=NULL;
-			        	}	
-					} else if(actual->sig!=NULL){
-						actual->ant->sig=actual->sig;
+			if (actual->pdestino>na){
+		        if(actual==Colas[i]->primero)){
+		        	Colas[i]->primero=actual->sig;
+		        	actual->sig->ant=NULL;
+				}else{
+					actual->ant->sig=actual->sig;
+					if(actual->sig != NULL){
 						actual->sig->ant=actual->ant;
 					}
-			        else{
-			        	actual->ant->sig=NULL;
-			        	(*cola)->ultimo=actual->ant;
-			        }
-			        free(actual);
 				}
+				temporal=actual
+				actual=actual->sig;
+		        free(temporal);
+				
+			}else{
+				actual=actual->sig;
 			}
 		}
 	}
