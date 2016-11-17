@@ -14,10 +14,9 @@ int desencolar(struct cola * C){						//DESENCOLA EL VECTOR DE COLAS DE ESTRUCTU
     }else{
     	return NULL;
     }
-	return aux;
-
-
+	return temporal;
 }
+
 
 
 void insertar( struct nodo **lista, struct nodo**ultimo,  int dato ){
@@ -66,6 +65,16 @@ void insertar( struct nodo **lista, struct nodo**ultimo,  int dato ){
 		}
 	}
 }
+void insertar( struct nodo * persona){
+	if(lista != NULL){
+		lista->ant=persona;
+		persona->sig=lista;
+		persona->ant=NULL;
+		lista=persona;
+	}else{
+		lista=persona;
+	}
+}
 
 void eliminar(int piso){													//ELIMINA LOS NODOS QUE YA LLEGARON A DESTINO LIBERANDO LUGAR EN EL ASCENSOR
 	struct elemento * actual = lista;
@@ -88,13 +97,13 @@ void eliminar(int piso){													//ELIMINA LOS NODOS QUE YA LLEGARON A DESTI
 	return 0;
 }
 
-void apilador( int piso, int direc){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS FUNCIONES AUXILIARES
+void apilador( int piso){				//FUNCION DENTRO DEL MAIN ENCARGADO DE LLAMAR A LAS FUNCIONES AUXILIARES
     int dato;
     int time;
     int eliminado=1;
     struct nodo persona;
     if(piso != -1){
-    	if(lista!= NULL && eliminado == 1){
+    	if(lista!= NULL){
     		if(subir==0){
     			time=tiempo;
     		}
@@ -105,9 +114,11 @@ void apilador( int piso, int direc){				//FUNCION DENTRO DEL MAIN ENCARGADO DE L
 	    			time=tiempo;
 	    		}
 	    	}
+    	}else{
+    		eliminado=0;
     	}
     	if(eliminado==0){
-	    	if(personas < c &&Colas[direc][piso]->primero != NULL && Colas[direc][piso]->primero->tiempo <= tiempo){
+	    	if(personas < c &&Colas[direccion][piso]->primero != NULL && Colas[direccion][piso]->primero->tiempo <= tiempo){
 	    		if(subir==0){
 	    			time=tiempo;
 	    		}
@@ -115,9 +126,12 @@ void apilador( int piso, int direc){				//FUNCION DENTRO DEL MAIN ENCARGADO DE L
 	    	}
 	    	if(subir==1 && tiempo-time >= tu){
 	    		subir=0;
-	    		persona=desencolar(Colas[direc][piso]);
-	    		insertar(persona);
-	    		personas++;
+	    		persona=desencolar(Colas[direccion][piso]);
+	    		if (persona != NULL)
+	    		{
+		    		insertar(persona);
+		    		personas++;
+	    		}
 	    	}
     	}
     }
