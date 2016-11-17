@@ -1,5 +1,6 @@
 #include "global.h"
 #include "generador.h"
+#include "simulador.h"
 #include "apilador.h"
 //ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
 //© Todos los Derechos Reservados ©
