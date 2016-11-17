@@ -21,6 +21,6 @@ struct cola{
 	struct elemento * ultimo;
 };
 
-struct cola ** Colas[2];
+struct cola **Colas[2];
 
 struct elemento * lista;
