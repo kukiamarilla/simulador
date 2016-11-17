@@ -1,6 +1,6 @@
 
 
-void generador(int tempo){
+void generador(){
 	int s;
 	srand(rand()%time(NULL));
 	FILE *ptrcf;
@@ -13,7 +13,7 @@ void generador(int tempo){
 				do{
 					pdestino=rand()%n+1;
 				}while (pdestino==porigen);
-				fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,tempo);
+				fprintf(ptrcf, "%d %d %d\n",porigen,pdestino,tiempo);
 			}
 		}
 	}
