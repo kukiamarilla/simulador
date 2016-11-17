@@ -53,7 +53,7 @@ void eliminar(){
 	puts("ELIMINANDO NODO");
     struct elemento *actual;
 	int i;
-	for (i=1;i<=n;i++){
+	for (i=0;i<na;i++){
 		actual=Colas[1][i]->primero;
 		while (actual!=NULL){
 			if (actual->pdestino>na){
