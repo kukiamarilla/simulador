@@ -54,18 +54,18 @@ void eliminar(){
     struct elemento *actual;
 	int i;
 	for (i=1;i<=n;i++){
-		actual=Colas[i]->primero;
+		actual=Colas[1][i]->primero;
 		while (actual!=NULL){
 			if (actual->pdestino>na){
-		        if(actual==Colas[i]->primero)){
-		        	Colas[i]->primero=actual->sig;
+		        if(actual==Colas[1][i]->primero)){
+		        	Colas[1][i]->primero=actual->sig;
 		        	actual->sig->ant=NULL;
 				}else{
 					actual->ant->sig=actual->sig;
 					if(actual->sig != NULL){
 						actual->sig->ant=actual->ant;
 					}else{
-						Colas[i]->ultimo=actual->ant;
+						Colas[1][i]->ultimo=actual->ant;
 					}
 				}
 				temporal=actual
