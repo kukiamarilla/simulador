@@ -6,10 +6,8 @@
 //© Todos los Derechos Reservados ©
 
 void  decapitar(void);
-void eliminar(struct cola *cola);
-void dimensionar();
-void redimensionar(int na);
-
+void eliminar(void);
+void inicializar(void);
 
 void generadorts(){
 	int i;
@@ -27,22 +25,36 @@ void leerparametros(){
 		fscanf(ptrcf,"%d %d %d %d",&na,&c,&tu,&tp);
 		fclose(ptrcf);
 	}
-
-	if(n==NULL){
+	puts("leido");
+	if(n==0){
+		puts("1");
 		n=na;
-		Colas[0]=(struct cola **)malloc(n*sizeof(struct cola *));
-		Colas[1]=(struct cola **)malloc(n*sizeof(struct cola *));
+		Colas[0]=(struct cola **)malloc((n+1)*sizeof(struct cola *));
+		Colas[1]=(struct cola **)malloc((n+1)*sizeof(struct cola *));
+		inicializar();
+		puts("a");
 	}else{
+		puts("2");
 		if (na!=n){
 			puts("redimensionar");
 			if (na<n){
-				n=na
+				n=na;
 				decapitar();
 			}
 			n=na;
-			Colas[0]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
-			Colas[1]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
+			Colas[0]=(struct cola **)realloc(Colas[0],(n+1)*sizeof(struct cola *));
+			Colas[1]=(struct cola **)realloc(Colas[0],(n+1)*sizeof(struct cola *));
 		}
+	}
+}
+
+void inicializar(){
+	int i;
+	for (i=1;i<=n;i++){
+		Colas[0][i]->primero=NULL;
+		Colas[0][i]->ultimo=NULL;
+		Colas[1][i]->primero=NULL;
+		Colas[1][i]->ultimo=NULL;
 	}
 }
 
@@ -54,12 +66,13 @@ void decapitar(){
 void eliminar(){
 	puts("ELIMINANDO NODO");
     struct elemento *actual;
+    struct elemento *temporal;
 	int i;
 	for (i=0;i<n;i++){
 		actual=Colas[1][i]->primero;
 		while (actual!=NULL){
-			if (actual->pdestino>na){
-		        if(actual==Colas[1][i]->primero)){
+			if (actual->pdestino>n){
+		        if(actual==Colas[1][i]->primero){
 		        	Colas[1][i]->primero=actual->sig;
 		        	actual->sig->ant=NULL;
 				}else{
@@ -70,7 +83,7 @@ void eliminar(){
 						Colas[1][i]->ultimo=actual->ant;
 					}
 				}
-				temporal=actual
+				temporal=actual;
 				actual=actual->sig;
 		        free(temporal);
 				
@@ -80,7 +93,6 @@ void eliminar(){
 			}
 		}
 	}
-	puts("ELIMINADO");
 }
 
 int valido(char x[]){
