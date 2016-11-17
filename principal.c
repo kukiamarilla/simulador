@@ -1,6 +1,6 @@
 #include "global.h"
 #include "generador.h"
-#include "apilador.h"
+
 //ESTE ARCHIVO FUE HECHO UNICAMENTE POR NATALIA CARDOZO
 //© Todos los Derechos Reservados ©
 
@@ -91,7 +91,7 @@ void eliminar(){
 int valido(char x[]){
 	int i;
 	for (i=0;i<strlen(x);i++){
-		if(!isdigit(x[i])) return 0;
+		if(!isdigit(x[i]) && x[i]!='-') return 0;
 	}
 	return 1;
 }
@@ -141,9 +141,24 @@ void cargaparametros(){
 
 int main(int argc, char const *argv[])
 {
-	//cargaparametros();
-	scanf("%d", &ts);
-	leerparametros();
-
+	char aux[10];
+	cargaparametros();
+	do{
+		printf("%s\n","Ingrese consulta");
+		scanf("%s",aux);
+		if (!valido(aux)) printf("\a\nERROR\n");
+		else{
+			ts=atoi(aux);
+			for (tiempo=0;tiempo<=ts;tiempo++){
+				leerparametros();
+				generador();
+				leerarchivo();
+				simulador();
+				piso=posicion%tp==0 ? posicion/tp : -1;
+				apilador();
+				graficador();
+			}
+		}
+	}while (ts>=0 || !valido(aux));
 	return 0;
 }
