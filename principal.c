@@ -27,63 +27,56 @@ void leerparametros(){
 		fscanf(ptrcf,"%d %d %d %d",&na,&c,&tu,&tp);
 		fclose(ptrcf);
 	}
-	if (na!=n && n){
-		puts("redimensionar");
-		redimensionar(na);
-	}
-	n=na;
-	if (!n) dimensionar();
-}
-void dimensionar(){
-	puts("dimensionar");
-	int i;
-	Colas=(struct cola **)malloc((n+1)*sizeof(struct cola));
-	for (i=0;i<=n+1;i++) Colas[i]=(struct cola *)malloc(2*sizeof(struct cola));
-}
 
-void redimensionar(int na){
-	int i;
-	Colas=(struct cola **)realloc(Colas,n*sizeof(struct cola*));
-	if (na>n){
-		for (i=n;i<=na;i++) Colas[i]=(struct cola *)malloc(2*sizeof(struct cola));
-	}else{
+	if(n==NULL){
 		n=na;
-		decapitar();
+		Colas[0]=(struct cola **)malloc(n*sizeof(struct cola *));
+		Colas[1]=(struct cola **)malloc(n*sizeof(struct cola *));
+	}else{
+		if (na!=n){
+			puts("redimensionar");
+			if (na<n){
+				n=na
+				decapitar();
+			}
+			n=na;
+			Colas[0]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
+			Colas[1]=(struct cola **)realloc(Colas[0],n*sizeof(struct cola *));
+		}
 	}
 }
 
 void decapitar(){
 	puts("DECAPITANDO EDIFICIO: HABRA PERSONAS MUERTAS AL FINALIZAR PROCESO");
-	int i;
-	for (i=1;i<=n;i++){
-		if ((Colas[i][1]).primero!=NULL){
-			eliminar(&Colas[i][1]);
-		}
-	}
+	eliminar();
 }
 
-void eliminar(struct cola *cola){
+void eliminar(){
 	puts("ELIMINANDO NODO");
     struct elemento *actual;
-	
-	actual=cola->primero;
-	while (actual!=NULL){
-		if ((actual->pdestino)>n){
-			if(actual!=NULL){
-		        if(actual==(cola->primero)){
-		        	cola->primero=actual->sig;
-		        	if(actual->sig!=NULL){
-		        		actual->sig->ant=NULL;
-		        	}	
-				} else if(actual->sig!=NULL){
+	int i;
+	for (i=0;i<n;i++){
+		actual=Colas[1][i]->primero;
+		while (actual!=NULL){
+			if (actual->pdestino>na){
+		        if(actual==Colas[1][i]->primero)){
+		        	Colas[1][i]->primero=actual->sig;
+		        	actual->sig->ant=NULL;
+				}else{
 					actual->ant->sig=actual->sig;
-					actual->sig->ant=actual->ant;
+					if(actual->sig != NULL){
+						actual->sig->ant=actual->ant;
+					}else{
+						Colas[1][i]->ultimo=actual->ant;
+					}
 				}
-		        else{
-		        	actual->ant->sig=NULL;
-		        	cola->ultimo=actual->ant;
-		        }
-		        free(actual);
+				temporal=actual
+				actual=actual->sig;
+		        free(temporal);
+				
+			}else{
+				actual=actual->sig;
+
 			}
 		}
 	}
