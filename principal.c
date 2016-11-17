@@ -14,6 +14,7 @@ void redimensionar(int na);
 void generadorts(){
 	int i;
 	FILE *ptrcf;
+
 	if((ptrcf=fopen("solicitudes.dat","w"))!=NULL)
 		for (i=1;i<=ts;i++) generador(i);
 }
@@ -150,7 +151,7 @@ int main(int argc, char const *argv[])
 	generadorts();
 	leerarchivo();
 	printf("%d\n", n);
-	sleep(10);
+	sleep(15);
 	leerparametros();
 	printf("%d\n", n);
 	generadorts();

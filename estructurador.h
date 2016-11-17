@@ -31,19 +31,19 @@ void encolar(struct cola *C, int pdestino, int tiempo){
 
 //funcion que lee el archivo solicitudes.dat y pasa los datos del archivo a una cola
 void leerarchivo(){  
-	int porigen, pdestino, time;
+	int porigen, pdestino, tempo;
 	FILE *ptrcf;
 	if((ptrcf=fopen("solicitudes.dat","r"))!=NULL){
 		while (!feof(ptrcf)){
-			fscanf(ptrcf,"%d%d%d\n", &porigen, &pdestino, &time);
-			printf("\n%d %d %d\n",porigen,pdestino,time);
-			if (time==tiempo){
+			fscanf(ptrcf,"%d%d%d\n", &porigen, &pdestino, &tempo);
+			printf("\n%d %d %d\n",porigen,pdestino,tempo);
+			// if (tempo==tiempo){
 				if(pdestino>porigen){
-					encolar(&(Colas[porigen][1]), pdestino, time);
+					encolar(&(Colas[porigen][1]), pdestino, tempo);
 				}else {
-					encolar(&(Colas[porigen][0]), pdestino, time);
+					encolar(&(Colas[porigen][0]), pdestino, tempo);
 				}
-			}
+			// }
 		}
 		fclose(ptrcf);
 	}		
